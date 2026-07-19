@@ -21,7 +21,12 @@ export default defineConfig([
     },
   },
   {
-    files: ["src/components/ui/**/*.{ts,tsx}", "src/routes/**/*.{ts,tsx}"],
+    files: [
+      "src/components/ui/**/*.{ts,tsx}",
+      "src/routes/**/*.{ts,tsx}",
+      "src/features/auth/auth-context.tsx",
+      "src/main.tsx",
+    ],
     rules: {
       "react-refresh/only-export-components": "off",
     },

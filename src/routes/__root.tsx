@@ -1,7 +1,8 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import type { RouterContext } from "@/router";
 import { BottomNav } from "@/components/bottom-nav";
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <main className="pb-16">
