@@ -1,5 +1,6 @@
 import { useRouter } from "@tanstack/react-router";
 import { useAuth } from "@/features/auth/auth-context";
+import { isPublicAuthEndpoint } from "./api-endpoints";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -28,7 +29,7 @@ export function useApiFetch() {
       ...init,
     });
 
-    if (res.status === 401 && !path.startsWith("/auth")) {
+    if (res.status === 401 && !isPublicAuthEndpoint(path)) {
       setUser(null);
       router.navigate({ to: "/login" });
       throw new ApiError(401, "Unauthorized");

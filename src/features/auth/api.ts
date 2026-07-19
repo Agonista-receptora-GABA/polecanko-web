@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useApiFetch } from "@/lib/api";
+import { API_ENDPOINTS } from "@/lib/api-endpoints";
 import { useAuth } from "./auth-context";
 import type { User } from "./types";
 
@@ -22,7 +23,7 @@ export function useLogin(redirectTo?: string) {
 
   return useMutation({
     mutationFn: (data: LoginPayload) =>
-      apiFetch<LoginResponse>("/auth/login", {
+      apiFetch<LoginResponse>(API_ENDPOINTS.login, {
         method: "POST",
         body: JSON.stringify(data),
       }),
