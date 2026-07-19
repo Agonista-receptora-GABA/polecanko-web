@@ -1,4 +1,5 @@
 import { useState, type SubmitEvent } from "react";
+import { z } from "zod";
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,14 +7,20 @@ import { Label } from "@/components/ui/label";
 import { useLogin } from "@/features/auth/api";
 import { ApiError } from "@/lib/api";
 
+const loginSearchSchema = z.object({
+  redirect: z.string().optional(),
+});
+
 export const Route = createFileRoute("/login")({
+  validateSearch: loginSearchSchema,
   component: LoginPage,
 });
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const login = useLogin();
+  const { redirect } = Route.useSearch();
+  const login = useLogin(redirect);
 
   function handleSubmit(e: SubmitEvent) {
     e.preventDefault();

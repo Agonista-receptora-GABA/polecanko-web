@@ -1,9 +1,12 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/profile")({
-  beforeLoad: ({ context }) => {
+  beforeLoad: ({ context, location }) => {
     if (!context.auth.user) {
-      throw redirect({ to: "/login" });
+      throw redirect({
+        to: "/login",
+        search: { redirect: location.href },
+      });
     }
   },
   component: RouteComponent,

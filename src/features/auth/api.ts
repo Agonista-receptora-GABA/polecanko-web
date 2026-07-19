@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
-import { apiFetch } from "@/lib/api";
+import { useNavigate, useRouter } from "@tanstack/react-router";
+import { useApiFetch } from "@/lib/api";
 import { useAuth } from "./auth-context";
 import type { User } from "./types";
 
@@ -14,9 +14,11 @@ interface LoginResponse {
   user: User;
 }
 
-export function useLogin() {
+export function useLogin(redirectTo?: string) {
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const router = useRouter();
+  const apiFetch = useApiFetch();
 
   return useMutation({
     mutationFn: (data: LoginPayload) =>
@@ -24,9 +26,10 @@ export function useLogin() {
         method: "POST",
         body: JSON.stringify(data),
       }),
-    onSuccess: ({ user }) => {
+    onSuccess: async ({ user }) => {
       setUser(user);
-      navigate({ to: "/" });
+      await router.invalidate();
+      navigate({ to: redirectTo?.startsWith("/") ? redirectTo : "/" });
     },
   });
 }

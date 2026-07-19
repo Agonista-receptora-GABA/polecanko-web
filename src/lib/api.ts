@@ -1,3 +1,6 @@
+import { useRouter } from "@tanstack/react-router";
+import { useAuth } from "@/features/auth/auth-context";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export class ApiError extends Error {
@@ -10,20 +13,31 @@ export class ApiError extends Error {
   }
 }
 
-export async function apiFetch<T>(
-  path: string,
-  init?: RequestInit,
-): Promise<T> {
-  const res = await fetch(`${API_URL}${path}`, {
-    // sends cookies cross-origin
-    credentials: "include",
-    headers: { "Content-Type": "application/json", ...init?.headers },
-    ...init,
-  });
+export function useApiFetch() {
+  const router = useRouter();
+  const { setUser } = useAuth();
 
-  if (!res.ok) {
-    throw new ApiError(res.status, `API error: ${res.status}`);
-  }
+  return async function apiFetch<T>(
+    path: string,
+    init?: RequestInit,
+  ): Promise<T> {
+    const res = await fetch(`${API_URL}${path}`, {
+      // sends cookies cross-origin
+      credentials: "include",
+      headers: { "Content-Type": "application/json", ...init?.headers },
+      ...init,
+    });
 
-  return res.json();
+    if (res.status === 401 && !path.startsWith("/auth")) {
+      setUser(null);
+      router.navigate({ to: "/login" });
+      throw new ApiError(401, "Unauthorized");
+    }
+
+    if (!res.ok) {
+      throw new ApiError(res.status, `API error: ${res.status}`);
+    }
+
+    return res.json();
+  };
 }
