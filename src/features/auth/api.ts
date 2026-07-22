@@ -1,8 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useApiFetch } from "@/lib/api";
 import { API_ENDPOINTS } from "@/lib/api-endpoints";
-import { useAuth } from "./auth-context";
 import type { User } from "./types";
 
 interface LoginPayload {
@@ -16,7 +15,7 @@ interface LoginResponse {
 }
 
 export function useLogin(redirectTo?: string) {
-  const { setUser } = useAuth();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const router = useRouter();
   const apiFetch = useApiFetch();
@@ -28,7 +27,7 @@ export function useLogin(redirectTo?: string) {
         body: JSON.stringify(data),
       }),
     onSuccess: async ({ user }) => {
-      setUser(user);
+      queryClient.setQueryData(["auth", "me"], user);
       await router.invalidate();
       navigate({ to: redirectTo?.startsWith("/") ? redirectTo : "/" });
     },
