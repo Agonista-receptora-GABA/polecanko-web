@@ -1,18 +1,11 @@
 import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import type { AuthContextValue } from "@/features/auth/auth-context";
-
-const defaultAuthContext: AuthContextValue = {
-  user: null,
-  setUser: () => {
-    throw new Error("setUser called before AuthProvider was mounted");
-  },
-};
+import type { QueryClient } from "@tanstack/react-query";
 
 export const router = createRouter({
   routeTree,
   // filled up in <RouterProvider context={...}>
-  context: { auth: defaultAuthContext },
+  context: { queryClient: null! },
 });
 
 declare module "@tanstack/react-router" {
@@ -22,5 +15,5 @@ declare module "@tanstack/react-router" {
 }
 
 export interface RouterContext {
-  auth: AuthContextValue;
+  queryClient: QueryClient;
 }

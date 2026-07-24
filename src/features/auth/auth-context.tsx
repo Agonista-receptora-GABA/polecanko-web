@@ -15,7 +15,7 @@ export interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-async function fetchMe(): Promise<User | null> {
+export async function fetchMe(): Promise<User | null> {
   const res = await fetch(`${API_URL}${API_ENDPOINTS.me}`, {
     credentials: "include",
   });

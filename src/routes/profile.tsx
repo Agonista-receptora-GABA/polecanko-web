@@ -1,8 +1,14 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { fetchMe } from "@/features/auth/auth-context";
 
 export const Route = createFileRoute("/profile")({
-  beforeLoad: ({ context, location }) => {
-    if (!context.auth.user) {
+  beforeLoad: async ({ context, location }) => {
+    const user = await context.queryClient.ensureQueryData({
+      queryKey: ["auth", "me"],
+      queryFn: fetchMe,
+    });
+
+    if (!user) {
       throw redirect({
         to: "/login",
         search: { redirect: location.href },
@@ -10,6 +16,13 @@ export const Route = createFileRoute("/profile")({
     }
   },
   component: RouteComponent,
+
+  // TODO: Change to pathless layout route (e.g. _authenticated.tsx)
+  pendingComponent: () => (
+    <div className="flex min-h-[50vh] items-center justify-center">
+      Ładowanie...
+    </div>
+  ),
 });
 
 function RouteComponent() {
