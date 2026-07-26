@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
+@import "leaflet/dist/leaflet.css";
 
 @import "./assets/fonts/faces.css";
 
