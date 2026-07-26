@@ -1,5 +1,7 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { AUTH_QUERY_KEY, fetchMe } from "@/features/auth/auth-context";
+import { redirectToLogin } from "@/lib/auth-redirect";
+import { router } from "@/router";
 
 export const Route = createFileRoute("/profile")({
   beforeLoad: async ({ context, location }) => {
@@ -9,10 +11,7 @@ export const Route = createFileRoute("/profile")({
     });
 
     if (!user) {
-      throw redirect({
-        to: "/login",
-        search: { redirect: location.href },
-      });
+      throw redirectToLogin(router, location.href);
     }
   },
   component: RouteComponent,
