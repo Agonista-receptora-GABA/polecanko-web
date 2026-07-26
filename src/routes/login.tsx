@@ -22,7 +22,7 @@ function LoginPage() {
   const { redirect } = Route.useSearch();
   const login = useLogin(redirect);
 
-  function handleSubmit(e: SubmitEvent) {
+  function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     login.mutate({ email, password });
   }
