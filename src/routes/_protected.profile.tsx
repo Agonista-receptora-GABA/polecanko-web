@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/features/auth/auth-context";
 import { useMyReviews } from "@/features/reviews/api";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 
 export const Route = createFileRoute("/_protected/profile")({
   component: ProfilePage,
@@ -50,6 +51,12 @@ function ProfilePage() {
             <p className="text-muted-foreground mt-1 text-sm">{review.body}</p>
           </div>
         ))}
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <h2 className="text-lg font-semibold">Preferencje</h2>
+        <h3>Motyw</h3>
+        <ThemeSwitcher />
       </div>
     </div>
   );
