@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
+import { AUTH_QUERY_KEY } from "@/features/auth/auth-context";
 import { isPublicAuthEndpoint } from "./api-endpoints";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -30,7 +31,7 @@ export function useApiFetch() {
     });
 
     if (res.status === 401 && !isPublicAuthEndpoint(path)) {
-      queryClient.setQueryData(["auth", "me"], null);
+      queryClient.setQueryData(AUTH_QUERY_KEY, null);
       router.navigate({ to: "/login" });
       throw new ApiError(401, "Unauthorized");
     }

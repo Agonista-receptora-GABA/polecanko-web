@@ -5,6 +5,8 @@ import type { User } from "./types";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+export const AUTH_QUERY_KEY = ["auth", "me"] as const;
+
 export interface AuthContextValue {
   user: User | null;
   isLoading: boolean;
@@ -32,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isError,
     status,
   } = useQuery({
-    queryKey: ["auth", "me"],
+    queryKey: AUTH_QUERY_KEY,
     queryFn: fetchMe,
     // 5 minutes
     staleTime: 5 * 60 * 1000,

@@ -1,10 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { fetchMe } from "@/features/auth/auth-context";
+import { AUTH_QUERY_KEY, fetchMe } from "@/features/auth/auth-context";
 
 export const Route = createFileRoute("/profile")({
   beforeLoad: async ({ context, location }) => {
     const user = await context.queryClient.ensureQueryData({
-      queryKey: ["auth", "me"],
+      queryKey: AUTH_QUERY_KEY,
       queryFn: fetchMe,
     });
 

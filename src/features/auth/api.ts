@@ -3,6 +3,7 @@ import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useApiFetch } from "@/lib/api";
 import { API_ENDPOINTS } from "@/lib/api-endpoints";
 import type { User } from "./types";
+import { AUTH_QUERY_KEY } from "./auth-context";
 
 interface LoginPayload {
   email: string;
@@ -27,7 +28,7 @@ export function useLogin(redirectTo?: string) {
         body: JSON.stringify(data),
       }),
     onSuccess: async ({ user }) => {
-      queryClient.setQueryData(["auth", "me"], user);
+      queryClient.setQueryData(AUTH_QUERY_KEY, user);
       await router.invalidate();
       navigate({ to: redirectTo?.startsWith("/") ? redirectTo : "/" });
     },
