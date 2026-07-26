@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { Home, User } from "lucide-react";
+import { Home, MapPinSearch, User } from "lucide-react";
 
 const navItems = [
   { to: "/", label: "Home", icon: Home },
+  { to: "/discover", label: "Odkrywaj", icon: MapPinSearch },
   { to: "/profile", label: "Profil", icon: User },
 ] as const;
 
