@@ -35,7 +35,7 @@ function DiscoverPage() {
     <div className="flex h-[calc(100vh-4rem)] flex-col">
       <h1 className="p-4 text-xl font-semibold">Odkrywaj</h1>
 
-      <div className="flex-1">
+      <div className="-z-10 flex-1">
         <MapContainer
           center={[52.2297, 21.0122]}
           zoom={13}
