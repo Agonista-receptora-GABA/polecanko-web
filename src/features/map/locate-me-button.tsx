@@ -16,11 +16,15 @@ export function LocateMeButton() {
       return;
     }
 
-    const coords = await requestLocation();
-    if (!coords) return;
+    const result = await requestLocation();
 
-    map.setView(coords, 15);
-    setView(coords, 15);
+    if (!result.ok) {
+      if (result.reason === "denied") setShowDeniedMessage(true);
+      return;
+    }
+
+    map.setView(result.coords, 15);
+    setView(result.coords, 15);
   };
 
   return (

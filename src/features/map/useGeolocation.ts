@@ -2,6 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 
 type GeolocationStatus = "idle" | "loading" | "success" | "denied" | "error";
 
+type GeolocationResult =
+  | { ok: true; coords: [number, number] }
+  | { ok: false; reason: "denied" | "error" };
+
 const GEO_OPTIONS: PositionOptions = {
   enableHighAccuracy: false,
   timeout: 10000,
@@ -24,11 +28,15 @@ export function useGeolocation() {
 
     navigator.permissions.query({ name: "geolocation" }).then((result) => {
       permissionStatus = result;
-      const handleChange = () => {
-        if (result.state === "granted" || result.state === "prompt") {
+
+      function handleChange() {
+        if (result.state === "denied") {
+          setStatus("denied");
+        } else {
           setStatus("idle");
         }
-      };
+      }
+
       result.addEventListener("change", handleChange);
     });
 
@@ -37,12 +45,10 @@ export function useGeolocation() {
     };
   }, []);
 
-  const requestLocation = useCallback(async (): Promise<
-    [number, number] | null
-  > => {
+  const requestLocation = useCallback(async (): Promise<GeolocationResult> => {
     if (!("geolocation" in navigator)) {
       setStatus("error");
-      return null;
+      return { ok: false, reason: "error" };
     }
 
     setStatus("loading");
@@ -50,22 +56,28 @@ export function useGeolocation() {
     try {
       const position = await getPosition();
       setStatus("success");
-      return [position.coords.latitude, position.coords.longitude];
+      return {
+        ok: true,
+        coords: [position.coords.latitude, position.coords.longitude],
+      };
     } catch (error) {
       const geoError = error as GeolocationPositionError;
 
       if (geoError.code === geoError.PERMISSION_DENIED) {
         setStatus("denied");
-        return null;
+        return { ok: false, reason: "denied" };
       }
 
       try {
         const position = await getPosition();
         setStatus("success");
-        return [position.coords.latitude, position.coords.longitude];
+        return {
+          ok: true,
+          coords: [position.coords.latitude, position.coords.longitude],
+        };
       } catch {
         setStatus("error");
-        return null;
+        return { ok: false, reason: "error" };
       }
     }
   }, []);
