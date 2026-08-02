@@ -6,6 +6,8 @@
 
 @import "./assets/fonts/faces.css";
 
+@import "./features/map/styles.css";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

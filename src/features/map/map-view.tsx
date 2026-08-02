@@ -5,10 +5,6 @@ import {
   Popup,
   useMapEvents,
 } from "react-leaflet";
-import {
-  usePreferences,
-  type PreferencesContextValue,
-} from "@/features/preferences/preferences-context";
 import { useMapView } from "./map-view-context";
 import { LocateMeButton } from "./locate-me-button";
 
@@ -18,15 +14,14 @@ const mockPlaces = [
   { id: "2", name: "Kolejna Knajpka", lat: 52.2319, lng: 21.0067 },
 ];
 
-function getTilesProviderUrl(
-  resolvedTheme: PreferencesContextValue["resolvedTheme"],
-): string {
+function getTilesProviderUrl(): string {
   const TILES_PROVIDER_URL =
-    "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png";
+    "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png";
 
-  return resolvedTheme === "light"
-    ? TILES_PROVIDER_URL
-    : TILES_PROVIDER_URL.replace("light_all", "dark_all");
+  // Note: The dark mode is currently supported by a hue invertion trick.
+  // That's why there's no other link for the dark mode tiles.
+  // See styles.css
+  return TILES_PROVIDER_URL;
 }
 
 function ViewSync() {
@@ -44,10 +39,9 @@ function ViewSync() {
 }
 
 export function MapView() {
-  const { resolvedTheme } = usePreferences();
   const { center, zoom } = useMapView();
 
-  const tilesProviderUrl = getTilesProviderUrl(resolvedTheme);
+  const tilesProviderUrl = getTilesProviderUrl();
 
   return (
     <MapContainer
