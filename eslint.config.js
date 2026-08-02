@@ -25,6 +25,7 @@ export default defineConfig([
       "src/components/ui/**/*.{ts,tsx}",
       "src/routes/**/*.{ts,tsx}",
       "src/features/auth/auth-context.tsx",
+      "src/features/map/map-view-context.tsx",
       "src/features/preferences/preferences-context.tsx",
       "src/main.tsx",
     ],
