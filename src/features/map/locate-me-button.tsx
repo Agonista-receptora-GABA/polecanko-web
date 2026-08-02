@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useMap } from "react-leaflet";
+import { GpsFixIcon, SpinnerGapIcon } from "@phosphor-icons/react";
 import { useGeolocation } from "./useGeolocation";
 import { useMapView } from "./map-view-context";
-import { LocateFixed, Loader2 } from "lucide-react";
 
 export function LocateMeButton() {
   const map = useMap();
@@ -36,9 +36,9 @@ export function LocateMeButton() {
         aria-label="Wycentruj na mojej lokalizacji"
       >
         {status === "loading" ? (
-          <Loader2 className="h-5 w-5 animate-spin" />
+          <SpinnerGapIcon className="h-5 w-5 animate-spin" />
         ) : (
-          <LocateFixed
+          <GpsFixIcon
             className={`h-5 w-5 ${status === "denied" ? "text-gray-400" : ""}`}
           />
         )}

@@ -1,12 +1,17 @@
-import { Monitor, Moon, Sun } from "lucide-react";
+import {
+  type Icon,
+  MonitorIcon,
+  MoonIcon,
+  SunIcon,
+} from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { usePreferences } from "@/features/preferences/preferences-context";
 import type { Theme } from "@/features/preferences/types";
 
-const options: { value: Theme; label: string; icon: typeof Sun }[] = [
-  { value: "light", label: "Jasny", icon: Sun },
-  { value: "dark", label: "Ciemny", icon: Moon },
-  { value: "system", label: "Systemowy", icon: Monitor },
+const options: { value: Theme; label: string; icon: Icon }[] = [
+  { value: "light", label: "Jasny", icon: SunIcon },
+  { value: "dark", label: "Ciemny", icon: MoonIcon },
+  { value: "system", label: "Systemowy", icon: MonitorIcon },
 ];
 
 export function ThemeSwitcher() {
