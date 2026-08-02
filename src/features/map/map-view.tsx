@@ -10,6 +10,7 @@ import {
   type PreferencesContextValue,
 } from "@/features/preferences/preferences-context";
 import { useMapView } from "./map-view-context";
+import { LocateMeButton } from "./locate-me-button";
 
 // TODO: Remove once there is data from the API.
 const mockPlaces = [
@@ -66,6 +67,7 @@ export function MapView() {
       ))}
 
       <ViewSync />
+      <LocateMeButton />
     </MapContainer>
   );
 }
