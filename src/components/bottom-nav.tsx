@@ -1,9 +1,8 @@
 import { Link, useMatchRoute } from "@tanstack/react-router";
-import { HouseIcon, MapPinLineIcon, UserIcon } from "@phosphor-icons/react";
+import { MapPinLineIcon, UserIcon } from "@phosphor-icons/react";
 
 const navItems = [
-  { to: "/", label: "Home", icon: HouseIcon },
-  { to: "/discover", label: "Odkrywaj", icon: MapPinLineIcon },
+  { to: "/", label: "Odkrywaj", icon: MapPinLineIcon },
   { to: "/profile", label: "Profil", icon: UserIcon },
 ] as const;
 
